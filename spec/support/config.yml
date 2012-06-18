@@ -1,0 +1,18 @@
+method-whitelist:
+- getPlayerLimit
+- getPluginFiles
+- getFileContents
+- getBukkitVersion
+- getPlayers
+- dynmap.getPort
+logins:
+    'bkreeger': 'buttmonokey'
+options:
+    startup-delay: 2000
+    port: 20059
+    ip-whitelist: []
+    log-to-console: true
+    log-to-file: 'false'
+    salt: 'thisISaSALT'
+    anyone-can-use-calladmin: true
+    server-name: 'default'
