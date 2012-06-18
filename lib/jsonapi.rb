@@ -29,7 +29,7 @@ module JSONAPI
 
       yield(self) if block
 
-      generate_methods
+      generate_methods if @username and @password
     end
 
     def call_api(method, *args)
@@ -41,16 +41,15 @@ module JSONAPI
 
     def connection
       @conection ||= ::Faraday.new(:url => "http://#{@host}:#{@port}") do |builder|
-        # or, use shortcuts:
         builder.request  :url_encoded
-        builder.response :logger
+        # builder.response :logger
         builder.response :json
         builder.adapter  :net_http
       end
     end
 
     def generate_methods
-
+      files = self.call_api 'getPluginFiles', 'JSONAPI'
     end
 
   end

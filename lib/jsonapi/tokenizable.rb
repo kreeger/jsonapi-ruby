@@ -11,7 +11,6 @@ module JSONAPI
     #
     # @return [String] a token representation of the strings given.
     def tokenize(*args)
-      puts "TOKENIZING #{args.map(&:to_s).join}"
       Digest::SHA256.hexdigest args.map(&:to_s).join
     end
 

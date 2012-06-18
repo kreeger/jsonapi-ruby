@@ -7,7 +7,7 @@ describe JSONAPI do
 
     describe :new do
       let(:args) do
-        { :username => 'user', :password => 'secret', :host => 'urmom.com', :port => '20058' }
+        { :username => 'user', :host => 'urmom.com', :port => '20058' }
       end
 
       it 'should instantiate' do
@@ -32,7 +32,6 @@ describe JSONAPI do
     end
 
     describe :call_api do
-
       before(:each) do
         my_args = {
           :username => 'bkreeger',
@@ -46,10 +45,27 @@ describe JSONAPI do
         method = 'getBukkitVersion'
         result = @api.call_api method
         result.status.should == 200
+        result.body['result'].should == 'success'
 
         method = 'getPlayers'
         result = @api.call_api method
         result.status.should == 200
+        result.body['result'].should == 'success'
+      end
+    end
+
+    describe :generate_methods do
+      before(:each) do
+        my_args = {
+          :username => 'bkreeger',
+          :password => 'buttmonkey',
+          :salt => 'thisISaSALT',
+        }
+        @api = this.new(my_args)
+      end
+
+      it 'should assign methods to the caller' do
+        result = @api.send(:generate_methods)
         puts result.body
       end
     end
