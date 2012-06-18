@@ -23,4 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'debugger'
 
   gem.add_runtime_dependency 'faraday'
+  gem.add_runtime_dependency 'faraday_middleware'
 end

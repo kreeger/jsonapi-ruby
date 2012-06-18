@@ -1,3 +1,8 @@
+require "open-uri"
+require "json"
+require "faraday"
+require "faraday_middleware"
+
 require "jsonapi/tokenizable"
 require "jsonapi/version"
 
@@ -7,8 +12,7 @@ module JSONAPI
   class JSONAPI
     include Tokenizable
 
-    attr_accessor :username, :password, :host, :port
-    attr_reader :token, :salt
+    attr_accessor  :username, :password, :host, :port, :token, :salt
 
     # Initialize method.
     def initialize(args={}, &block)
@@ -21,10 +25,33 @@ module JSONAPI
       @password = opts[:password]
       @host = opts[:host]
       @port = opts[:port]
+      @salt = opts[:salt]
 
       yield(self) if block
 
-      @salt = random_string
+      generate_methods
     end
+
+    def call_api(method, *args)
+      key = tokenize(@username, method, @password, @salt)
+      connection.get "/api/call", :method => method, :key => key
+    end
+
+    private
+
+    def connection
+      @conection ||= ::Faraday.new(:url => "http://#{@host}:#{@port}") do |builder|
+        # or, use shortcuts:
+        builder.request  :url_encoded
+        builder.response :logger
+        builder.response :json
+        builder.adapter  :net_http
+      end
+    end
+
+    def generate_methods
+
+    end
+
   end
 end
