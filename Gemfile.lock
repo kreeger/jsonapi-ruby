@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jsonapi-ruby (0.0.1)
+    jsonapi (0.0.1)
       faraday
       faraday_middleware
 
@@ -51,7 +51,7 @@ DEPENDENCIES
   debugger
   guard-rspec
   guard-yard
-  jsonapi-ruby!
+  jsonapi!
   redcarpet
   rspec
   ruby_gntp
