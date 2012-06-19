@@ -66,7 +66,6 @@ describe JSONAPI do
 
       it 'should assign methods to the caller' do
         result = @api.send(:generate_methods)
-        puts result.body
       end
     end
 
