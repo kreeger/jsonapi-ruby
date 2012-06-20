@@ -58,9 +58,13 @@ module JSONAPI
     end
 
     def generate_methods
+      # Get all files related to JSONAPI.
       files = self.call_api 'getPluginFiles', 'JSONAPI'
+      # Get all plugins on the server.
       plugins = self.call_api 'getPlugins'
+      # For each .json API file...
       files.select { |f| File.extname(f) == '.json' }.each do |file|
+        # Read in the file config.
         contents = self.call_api 'getFileContents', file
         config = JSON.parse contents
         enabled = true
@@ -69,9 +73,10 @@ module JSONAPI
           enabled = !plugin.nil?
         end
 
-        namespace = config['namespace']
         config['methods'].each do |method|
-          puts method
+          method['namespace'] = config['namespace']
+          method['enabled'] = enabled
+
         end
       end
     end
