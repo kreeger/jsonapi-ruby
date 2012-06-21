@@ -2,6 +2,7 @@ require "open-uri"
 require "json"
 require "faraday"
 require "faraday_middleware"
+require "active_support/inflector"
 
 require "jsonapi/tokenizable"
 require "jsonapi/version"
@@ -76,7 +77,9 @@ module JSONAPI
         config['methods'].each do |method|
           method['namespace'] = config['namespace']
           method['enabled'] = enabled
-
+          name = method['name']
+          # debugger
+          define_singleton_method name.underscore.to_sym, lambda { self.call_api(name) }
         end
       end
     end

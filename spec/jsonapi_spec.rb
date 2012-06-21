@@ -44,13 +44,12 @@ describe JSONAPI do
       it "should call the API successfully" do
         method = 'getBukkitVersion'
         result = @api.call_api method
-        result.status.should == 200
-        result.body['result'].should == 'success'
+        result.should begin_with('1.2.5')
 
-        method = 'getPlayers'
+        method = 'getOfflinePlayerNames'
         result = @api.call_api method
-        result.status.should == 200
-        result.body['result'].should == 'success'
+        result.should be_a(Array)
+        result.length.should > 0
       end
     end
 
@@ -66,6 +65,9 @@ describe JSONAPI do
 
       it 'should assign methods to the caller' do
         result = @api.send(:generate_methods)
+        players = @api.get_offline_player('benkreeger')
+        players.should be_a(Array)
+        puts players
       end
     end
 
